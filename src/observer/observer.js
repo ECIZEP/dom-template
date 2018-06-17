@@ -1,6 +1,6 @@
 import Dep from './dep';
 import { def } from './util';
-// import { arrayMethods } from './array';
+import { arrayMethods } from './array';
 
 
 function protoAugment(target, src) {
@@ -79,6 +79,8 @@ Observer.prototype = {
                 return value;
             },
             set: function (newValue) {
+                // 埋入的h回调函数
+                callbackTest(newValue, value);
                 if (newValue == value) {
                     return;
                 }
@@ -91,4 +93,8 @@ Observer.prototype = {
             }
         });
     }
+}
+
+function callbackTest (newValue, oldValue) {
+    console.log('回调函数执行，监测到数据变化，值由' + oldValue + '变为' + newValue);
 }

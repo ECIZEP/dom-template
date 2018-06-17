@@ -2,7 +2,7 @@ const path = require('path');
 
 module.exports = {
     entry: {
-        app: ['./src/v-dom/index.js']
+        app: ['./src/observer/index.js']
     },
     output: {
         filename: 'dom-template.js',

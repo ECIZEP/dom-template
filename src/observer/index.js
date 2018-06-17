@@ -44,12 +44,14 @@ MVVM.prototype = {
         });
     },
     _update (VNodes) {
+        console.log('旧节点树:', this._vnode);
+        console.log('新节点树:', VNodes);
         let patches = diff(VNodes, this._vnode);
-        console.log(patches);
+        console.log('更新步骤', patches);
         patch(this.el.childNodes[0], patches);
         this._vnode = VNodes;
     },
-    $mount: function (el) {
+    $mount (el) {
         this.el = el;
         if (el.childNodes.length === 0) {
             let emptyNode = document.createTextNode('');
@@ -63,14 +65,23 @@ MVVM.prototype = {
     }
 }
 
-MVVM.prototype._c = function (tagName, props, children) {
+MVVM.prototype._createVNode = function (tagName, props, children) {
     return new VNode(tagName, props, children);
 }
-MVVM.prototype._v = function (text) {
-    // 生成空VNode
+MVVM.prototype._createTextVNode = function (text) {
+    // 生成文本VNode
     return text.toString();
 };
 
-MVVM.prototype._s = function (text) {
+MVVM.prototype._toString = function (text) {
     return text.toString();
+}
+
+MVVM.prototype._listFor = function (array, renderFunc) {
+    let VNodes = [];
+    for (let item of array) {
+        let VNode = renderFunc.call(this, item);
+        VNodes.push(VNode);
+    }
+    return VNodes;
 }

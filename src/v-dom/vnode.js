@@ -19,6 +19,11 @@ export default function VNode(tagName, props, children) {
     let count = 0;
     if (this.children) {
         let self = this;
+        this.children.forEach((child, index) => {
+            if (child instanceof Array) {
+                this.children.splice(index, 1, ...child);
+            }
+        })
         this.children.forEach(function (child, index) {
             if (child instanceof VNode) {
                 // 元素节点
@@ -46,8 +51,28 @@ VNode.prototype.render = function () {
     let children = this.children;
 
     children.forEach(function (child) {
-        let childEl = (child instanceof VNode) ? child.render() : document.createTextNode(child);
-        el.appendChild(childEl);
+        let childEl;
+        if (child instanceof Array) {
+            child.forEach(function (deepChild) {
+                if (deepChild instanceof VNode) {
+                    childEl = deepChild.render();
+                } else if (typeof deepChild === 'string') {
+                    childEl = document.createTextNode(deepChild);
+                } else {
+                    throw Error('Type Error, must be VNode or string');
+                }
+                el.appendChild(childEl);
+            })
+        } else {
+            if (child instanceof VNode) {
+                childEl = child.render();
+            } else if (typeof child === 'string') {
+                childEl = document.createTextNode(child);
+            } else {
+                throw Error('Type Error, must be VNode or string');
+            }
+            el.appendChild(childEl);
+        }
     });
 
     return el;

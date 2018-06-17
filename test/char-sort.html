@@ -255,3 +255,77 @@
 </body>
 
 </html>
+
+
+
+// 埋入的回调函数
+function callbackTest (newValue, oldValue) {
+    console.log('回调函数执行，监测到数据变化，值由' + oldValue + '变为' + newValue);
+} 
+set: function (newValue) {
+    // 埋入的h回调函数
+    callbackTest();
+    if (newValue == value) {
+        return;
+    }
+    if (typeof newValue === 'object') {
+        observer(newValue);
+    }
+    value = newValue;
+    // 告诉所有订阅者Watcher，数据更新了！
+    dep.notify();
+}
+
+enum State {
+    
+    Literal              = 'Literal',
+    BeforeOpenTag        = 'BeforeOpenTag',
+    OpeningTag           = 'OpeningTag',
+    AfterOpenTag         = 'AfterOpenTag',
+    InValueNq            = 'InValueNq',
+    InValueSq            = 'InValueSq',
+    InValueDq            = 'InValueDq',
+    ClosingOpenTag       = 'ClosingOpenTag',
+    OpeningSpecial       = 'OpeningSpecial',
+    OpeningDoctype       = 'OpeningDoctype',
+    OpeningNormalComment = 'OpeningNormalComment',
+    InNormalComment      = 'InNormalComment',
+    InShortComment       = 'InShortComment',
+    ClosingNormalComment = 'ClosingNormalComment',
+    ClosingTag           = 'ClosingTag',
+
+  }
+
+  export enum TokenKind {
+    Literal     = 'Literal',      // 文本
+    OpenTag     = 'OpenTag',      // 标签名称
+    OpenTagEnd  = 'OpenTagEnd',   // 开始标签结束符
+    CloseTag    = 'CloseTag',     // 关闭标签
+    Whitespace  = 'Whitespace',   // 开始标签类属性值之间的空白
+    AttrValueEq = 'AttrValueEq',  // 属性中的=
+    AttrValueNq = 'AttrValueNq',  // 属性中没有引号的值
+    AttrValueSq = 'AttrValueSq',  // 被单引号包起来的属性值
+    AttrValueDq = 'AttrValueDq',  // 被双引号包起来的属性值
+  }	
+
+
+let state: State          // 当前的状态
+let buffer: string        // 输入的字符串
+let bufSize: number       // 输入字符串长度
+let sectionStart: number  // 正在解析的Token的起始位置
+let index: number         // 当前解析的字符的位置
+let tokens: IToken[]      // 已解析的token列表
+let char: number          // 当前解析的位置的字符的UnicodePoint
+
+
+
+
+<script id="tpl" type="text/html">
+    <ul>
+        <%for(var i = 0; i < list.length; i++) {%>
+        <li><%:=list[i].name%></li>
+        <%}%>
+    </ul>
+</script>
+
+
